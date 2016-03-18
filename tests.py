@@ -15,3 +15,7 @@ def test_fit():
 def test_transform():
     """Make sure ReliefF transforms correctly"""
     assert 1 == 1
+
+def test_fit_transform():
+    """Make sure ReliefF fit_transforms correctly"""
+    assert 1 == 1

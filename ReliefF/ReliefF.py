@@ -26,13 +26,13 @@ from sklearn.neighbors import KDTree
 class ReliefF(object):
 
     """Feature selection using data-mined expert knowledge.
-    
+
     Based on the ReliefF algorithm as introduced in:
-    
+
     Kononenko, Igor et al. Overcoming the myopia of inductive learning algorithms with RELIEFF (1997), Applied Intelligence, 7(1), p39-55
-    
+
     """
-    
+
     def __init__(self, n_neighbors=100, n_features_to_keep=10):
         """Sets up ReliefF to perform feature selection.
 
@@ -88,9 +88,9 @@ class ReliefF(object):
                 else:
                     self.feature_scores[~similar_features] += 1.
                     self.feature_scores[similar_features] -= 1.
-        
+
         self.top_features = np.argsort(self.feature_scores)[::-1]
-        
+
     def transform(self, X):
         """Reduces the feature set down to the top `n_features_to_keep` features.
 
@@ -105,4 +105,23 @@ class ReliefF(object):
             Reduced feature matrix
 
         """
-        return X[:, self.top_features[self.n_features_to_keep]]
+        return X[:, self.top_features[:self.n_features_to_keep]]
+
+    def fit_transform(self, X, y):
+        """Computes the feature importance scores from the training data, then reduces the feature set down to the top `n_features_to_keep` features.
+
+        Parameters
+        ----------
+        X: array-like {n_samples, n_features}
+            Training instances to compute the feature importance scores from
+        y: array-like {n_samples}
+            Training labels
+
+        Returns
+        -------
+        X_reduced: array-like {n_samples, n_features_to_keep}
+            Reduced feature matrix
+
+        """
+        self.fit(X, y)
+        return self.transform(X)
