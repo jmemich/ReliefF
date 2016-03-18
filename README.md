@@ -16,7 +16,7 @@ These algorithms excel at identifying features that are predictive of the outcom
 
 The main benefit of ReliefF algorithms is that they identify feature interactions without having to exhaustively check every pairwise interaction, thus taking significantly less time than exhaustive pairwise search.
 
-ReliefF algorithms are commonly applied to genetic analyses, where epistasis (i.e., feature interactions) is common. However, the algorithms implemented in this package can be applied to any data set.
+ReliefF algorithms are commonly applied to genetic analyses, where epistasis (i.e., feature interactions) is common. However, the algorithms implemented in this package can be applied to any supervised classification data set.
 
 ## License
 
