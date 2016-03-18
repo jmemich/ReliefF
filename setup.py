@@ -25,7 +25,7 @@ These algorithms excel at identifying features that are predictive of the outcom
 
 The main benefit of ReliefF algorithms is that they identify feature interactions without having to exhaustively check every pairwise interaction, thus taking significantly less time than exhaustive pairwise search.
 
-ReliefF algorithms are commonly applied to genetic analyses, where epistasis (i.e., feature interactions) is common. However, the algorithms implemented in this package can be applied to any data set.
+ReliefF algorithms are commonly applied to genetic analyses, where epistasis (i.e., feature interactions) is common. However, the algorithms implemented in this package can be applied to any supervised classification data set.
 
 Contact
 =============
@@ -38,7 +38,7 @@ or Twitter: https://twitter.com/randal_olson
 This project is hosted at https://github.com/rhiever/ReliefF
 ''',
     zip_safe=True,
-    install_requires=['numpy', 'scipy', 'scikit-learn', 'update_checker'],
+    install_requires=['numpy', 'scipy', 'scikit-learn'],
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: Information Technology',
@@ -52,5 +52,5 @@ This project is hosted at https://github.com/rhiever/ReliefF
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Utilities'
     ],
-    keywords=['feature selection', 'feature preprocessing', 'data science', 'machine learning', 'supervised classification', 'feature importance', 'epistasis', 'genetic analysis'],
+    keywords=['feature selection', 'feature preprocessing', 'machine learning', 'data science', 'supervised classification', 'feature importance', 'epistasis', 'genetic analysis'],
 )
