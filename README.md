@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/rhiever/ReliefF/badge.svg?branch=master&service=github)](https://coveralls.io/github/rhiever/ReliefF?branch=master)
 ![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
 ![Python 3.5](https://img.shields.io/badge/python-3.5-blue.svg)
-![License](https://img.shields.io/badge/license-GPLv3-blue.svg)
+![License](https://img.shields.io/badge/license-MIT%20License-blue.svg)
 [![PyPI version](https://badge.fury.io/py/ReliefF.svg)](https://badge.fury.io/py/ReliefF)
 
 [![Join the chat at https://gitter.im/rhiever/ReliefF](https://badges.gitter.im/rhiever/ReliefF.svg)](https://gitter.im/rhiever/ReliefF?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
