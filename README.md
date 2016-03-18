@@ -40,7 +40,7 @@ We welcome you to [check the existing issues](https://github.com/rhiever/ReliefF
 
 Please [check the existing open and closed issues](https://github.com/rhiever/ReliefF/issues?utf8=%E2%9C%93&q=is%3Aissue) to see if your issue has already been attended to. If it hasn't, [file a new issue](https://github.com/rhiever/ReliefF/issues/new) on this repository so we can review your issue.
 
-## Citing TPOT
+## Citing ReliefF
 
 If you use this software in a publication, please consider citing it. You can cite the repository directly with the following DOI:
 
