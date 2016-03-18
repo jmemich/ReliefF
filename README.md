@@ -82,7 +82,7 @@ Please [check the existing open and closed issues](https://github.com/rhiever/Re
 
 If you use this software in a publication, please consider citing it. You can cite the repository directly with the following DOI:
 
-[![DOI](https://zenodo.org/badge/20747/rhiever/tpot.svg)](https://zenodo.org/badge/latestdoi/20747/rhiever/tpot)
+[![DOI](https://zenodo.org/badge/20747/rhiever/ReliefF.svg)](https://zenodo.org/badge/latestdoi/20747/rhiever/ReliefF)
 
 ## Support for ReliefF
 
