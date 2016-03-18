@@ -6,9 +6,9 @@
 ![License](https://img.shields.io/badge/license-MIT%20License-blue.svg)
 [![PyPI version](https://badge.fury.io/py/ReliefF.svg)](https://badge.fury.io/py/ReliefF)
 
-[![Join the chat at https://gitter.im/rhiever/ReliefF](https://badges.gitter.im/rhiever/ReliefF.svg)](https://gitter.im/rhiever/ReliefF?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 # ReliefF
+
+[![Join the chat at https://gitter.im/rhiever/ReliefF](https://badges.gitter.im/rhiever/ReliefF.svg)](https://gitter.im/rhiever/ReliefF?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This package contains implementations of the [ReliefF](https://en.wikipedia.org/wiki/Relief_(feature_selection)) family of feature selection algorithms.
 
