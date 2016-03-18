@@ -26,15 +26,49 @@ Generally, we have licensed the ReliefF package to make it as widely usable as p
 
 ## Installation
 
-blank
+ReliefF is built on top of the following existing Python packages:
 
-## Usage
+* NumPy
 
-blank
+* SciPy
+
+* scikit-learn
+
+All of the necessary Python packages can be installed via the [Anaconda Python distribution](https://www.continuum.io/downloads), which we strongly recommend that you use. We also strongly recommend that you use of Python 3 over Python 2 if you're given the choice.
+
+NumPy, SciPy, and scikit-learn can be installed in Anaconda via the command:
+
+```
+conda install numpy scipy scikit-learn
+```
+
+Once the prerequisites are installed, you should be able to install ReliefF with a pip command:
+
+```
+pip install relieff
+```
+
+Please [file a new issue](https://github.com/rhiever/ReliefF/issues/new) if you run into installation problems.
 
 ## Example
 
-blank
+ReliefF has been coded with a scikit-learn-like interface to be easy to use. The typical `fit`, `transform`, and `fit_transform` methods are available for every algorithm.
+
+```python
+from sklearn.datasets import load_digits
+from sklearn.cross_validation import train_test_split
+from ReliefF import ReliefF
+
+digits = load_digits(2)
+X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target)
+
+fs = ReliefF(n_neighbors=100, n_features_to_keep=5)
+X_train = fs.fit_transform(X_train, y_train)
+X_test_subset = fs.transform(X_test)
+print(X_test.shape, X_test_subset.shape)
+```
+
+This code should output `(90, 64) (90, 5)`, indicating that ReliefF successfully subset the features down to the 5 most predictive features.
 
 ## Contributing to ReliefF
 
@@ -47,8 +81,6 @@ Please [check the existing open and closed issues](https://github.com/rhiever/Re
 ## Citing ReliefF
 
 If you use this software in a publication, please consider citing it. You can cite the repository directly with the following DOI:
-
-placeholder:
 
 [![DOI](https://zenodo.org/badge/20747/rhiever/tpot.svg)](https://zenodo.org/badge/latestdoi/20747/rhiever/tpot)
 
