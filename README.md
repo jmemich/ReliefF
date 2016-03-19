@@ -18,6 +18,8 @@ The main benefit of ReliefF algorithms is that they identify feature interaction
 
 ReliefF algorithms are commonly applied to genetic analyses, where epistasis (i.e., feature interactions) is common. However, the algorithms implemented in this package can be applied to any supervised classification data set.
 
+However, note that this implementation of ReliefF **currently only works with categorical features**. We are working on expanding the algorithm to support continuous features as well.
+
 ## License
 
 Please see the [repository license](https://github.com/rhiever/ReliefF/blob/master/LICENSE) for the licensing and usage information for the ReliefF package.
