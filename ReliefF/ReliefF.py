@@ -73,25 +73,27 @@ class ReliefF(object):
         None
 
         """
-        self.feature_scores = np.zeros(X.shape[1])
+        self.feature_scores = np.zeros(X.shape[1], dtype=np.int64)
         self.tree = KDTree(X)
 
-        for source_index in range(X.shape[0]):
+        for (sample, label) in zip(X, y):
             distances, indices = self.tree.query(
-                X[source_index].reshape(1, -1), k=self.n_neighbors+1)
+                sample.reshape(1, -1), k=self.n_neighbors+1)
 
             # Nearest neighbor is self, so ignore first match
             indices = indices[0][1:]
 
-            # Create a binary array that is 1 when the source and neighbor
-            #  match and -1 everywhere else, for labels and features..
-            labels_match = np.equal(y[source_index], y[indices]) * 2. - 1.
-            features_match = np.equal(X[source_index], X[indices]) * 2. - 1.
+            # Create a binary array that is 1 when the sample  and neighbors
+            #  match and -1 everywhere else, for labels and features.
+            labels_match = np.equal(label, y[indices]) * 2 - 1
+            features_match = np.equal(sample, X[indices]) * 2 - 1
 
             # The change in feature_scores is the dot product of these  arrays
             self.feature_scores += np.dot(features_match.T, labels_match)
 
+        # Compute indices of top features, cast scores to floating point.
         self.top_features = np.argsort(self.feature_scores)[::-1]
+        self.feature_scores = self.feature_scores.astype(np.float64)
 
     def transform(self, X):
         """Reduces the feature set down to the top `n_features_to_keep` features.
