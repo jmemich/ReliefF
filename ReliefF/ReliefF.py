@@ -23,13 +23,15 @@ from __future__ import print_function
 import numpy as np
 from sklearn.neighbors import KDTree
 
+
 class ReliefF(object):
 
     """Feature selection using data-mined expert knowledge.
 
     Based on the ReliefF algorithm as introduced in:
 
-    Kononenko, Igor et al. Overcoming the myopia of inductive learning algorithms with RELIEFF (1997), Applied Intelligence, 7(1), p39-55
+    Kononenko, Igor et al. Overcoming the myopia of inductive learning
+    algorithms with RELIEFF (1997), Applied Intelligence, 7(1), p39-55
 
     """
 
@@ -39,7 +41,8 @@ class ReliefF(object):
         Parameters
         ----------
         n_neighbors: int (default: 100)
-            The number of neighbors to consider when assigning feature importance scores.
+            The number of neighbors to consider when assigning feature
+            importance scores.
             More neighbors results in more accurate scores, but takes longer.
 
         Returns
@@ -47,13 +50,13 @@ class ReliefF(object):
         None
 
         """
-        
+
         self.feature_scores = None
         self.top_features = None
         self.tree = None
         self.n_neighbors = n_neighbors
         self.n_features_to_keep = n_features_to_keep
-    
+
     def fit(self, X, y):
         """Computes the feature importance scores from the training data.
 
@@ -63,6 +66,7 @@ class ReliefF(object):
             Training instances to compute the feature importance scores from
         y: array-like {n_samples}
             Training labels
+        }
 
         Returns
         -------
@@ -73,21 +77,19 @@ class ReliefF(object):
         self.tree = KDTree(X)
 
         for source_index in range(X.shape[0]):
-            distances, indices = self.tree.query(X[source_index].reshape(1, -1), k=self.n_neighbors + 1)
+            distances, indices = self.tree.query(
+                X[source_index].reshape(1, -1), k=self.n_neighbors+1)
 
-            # First match is self, so ignore it
-            for neighbor_index in indices[0][1:]:
-                similar_features = X[source_index] == X[neighbor_index]
-                label_match = y[source_index] == y[neighbor_index]
+            # Nearest neighbor is self, so ignore first match
+            indices = indices[0][1:]
 
-                # If the labels match, then increment features that match and decrement features that do not match
-                # Do the opposite if the labels do not match
-                if label_match:
-                    self.feature_scores[similar_features] += 1.
-                    self.feature_scores[~similar_features] -= 1.
-                else:
-                    self.feature_scores[~similar_features] += 1.
-                    self.feature_scores[similar_features] -= 1.
+            # Create a binary array that is 1 when the source and neighbor
+            #  match and -1 everywhere else, for labels and features..
+            labels_match = np.equal(y[source_index], y[indices]) * 2. - 1.
+            features_match = np.equal(X[source_index], X[indices]) * 2. - 1.
+
+            # The change in feature_scores is the dot product of these  arrays
+            self.feature_scores += np.dot(features_match.T, labels_match)
 
         self.top_features = np.argsort(self.feature_scores)[::-1]
 
@@ -108,7 +110,8 @@ class ReliefF(object):
         return X[:, self.top_features[:self.n_features_to_keep]]
 
     def fit_transform(self, X, y):
-        """Computes the feature importance scores from the training data, then reduces the feature set down to the top `n_features_to_keep` features.
+        """Computes the feature importance scores from the training data, then
+        reduces the feature set down to the top `n_features_to_keep` features.
 
         Parameters
         ----------
