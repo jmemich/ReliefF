@@ -76,17 +76,16 @@ class ReliefF(object):
         self.feature_scores = np.zeros(X.shape[1], dtype=np.int64)
         self.tree = KDTree(X)
 
-        for (sample, label) in zip(X, y):
-            distances, indices = self.tree.query(
-                sample.reshape(1, -1), k=self.n_neighbors+1)
+        # Find nearest k neighbors of all points. The tree contains the query
+        # points, so we discard the first match for all points (first column).
+        indices = self.tree.query(X, k=self.n_neighbors+1,
+                                  return_distance=False)[:, 1:]
 
-            # Nearest neighbor is self, so ignore first match
-            indices = indices[0][1:]
-
+        for (source, nn) in enumerate(indices):
             # Create a binary array that is 1 when the sample  and neighbors
-            #  match and -1 everywhere else, for labels and features.
-            labels_match = np.equal(label, y[indices]) * 2 - 1
-            features_match = np.equal(sample, X[indices]) * 2 - 1
+            # match and -1 everywhere else, for labels and features.
+            labels_match = np.equal(y[source], y[nn]) * 2 - 1
+            features_match = np.equal(X[source], X[nn]) * 2 - 1
 
             # The change in feature_scores is the dot product of these  arrays
             self.feature_scores += np.dot(features_match.T, labels_match)
