@@ -10,7 +10,7 @@
 
 [![Join the chat at https://gitter.im/rhiever/ReliefF](https://badges.gitter.im/rhiever/ReliefF.svg)](https://gitter.im/rhiever/ReliefF?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This package contains implementations of the [ReliefF](https://en.wikipedia.org/wiki/Relief_(feature_selection)) family of feature selection algorithms.
+This package contains implementations of the [ReliefF](https://en.wikipedia.org/wiki/Relief_(feature_selection)) family of feature selection algorithms. **It is still under active development** and we encourage you to check back on this repository regularly for updates.
 
 These algorithms excel at identifying features that are predictive of the outcome in supervised learning problems, and are especially good at identifying feature interactions that are normally overlooked by standard feature selection algorithms.
 
