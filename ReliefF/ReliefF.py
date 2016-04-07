@@ -35,7 +35,7 @@ class ReliefF(object):
 
     """
 
-    def __init__(self, n_neighbors=100, n_features_to_keep=10):
+    def __init__(self, n_neighbors=100, n_features_to_keep=None, alpha=0.1):
         """Sets up ReliefF to perform feature selection.
 
         Parameters
@@ -44,6 +44,11 @@ class ReliefF(object):
             The number of neighbors to consider when assigning feature
             importance scores.
             More neighbors results in more accurate scores, but takes longer.
+        n_features_to_keep: int (default: None)
+            The number of features to retain when calling `transform()`
+        alpha: float (default: 0.1)
+            The amount of Type I error to tolerate when choosing a threshold
+            `tau` to seperate relevant and irrelevant features.
 
         Returns
         -------
@@ -56,6 +61,8 @@ class ReliefF(object):
         self.tree = None
         self.n_neighbors = n_neighbors
         self.n_features_to_keep = n_features_to_keep
+        self.alpha = alpha
+        self.tau = 1 / np.sqrt(alpha * n_neighbors)
 
     def fit(self, X, y):
         """Computes the feature importance scores from the training data.
@@ -72,7 +79,7 @@ class ReliefF(object):
         None
 
         """
-        self.feature_scores = np.zeros(X.shape[1], dtype=np.int64)
+        self.feature_scores = np.zeros(X.shape[1], dtype=np.float64)
         self.tree = KDTree(X)
 
         # Find nearest k neighbors of all points. The tree contains the query
@@ -81,20 +88,22 @@ class ReliefF(object):
                                   return_distance=False)[:, 1:]
 
         for (source, nn) in enumerate(indices):
-            # Create a binary array that is 1 when the sample  and neighbors
+            # Create a binary array that is 1 when the sample and neighbors
             # match and -1 everywhere else, for labels and features.
             labels_match = np.equal(y[source], y[nn]) * 2 - 1
             features_match = np.equal(X[source], X[nn]) * 2 - 1
 
-            # The change in feature_scores is the dot product of these  arrays
+            # The change in feature_scores is the dot product of these arrays
             self.feature_scores += np.dot(features_match.T, labels_match)
 
-        # Compute indices of top features, cast scores to floating point.
+        # Normalize `feature_scores` between -1 and 1
+        self.feature_scores = self.feature_scores / (self.n_neighbors * X.shape[0])
+        # Compute indices of top features
         self.top_features = np.argsort(self.feature_scores)[::-1]
-        self.feature_scores = self.feature_scores.astype(np.float64)
 
     def transform(self, X):
         """Reduces the feature set down to the top `n_features_to_keep` features.
+        Or returns features above `tau` threshold if `alpha` was given.
 
         Parameters
         ----------
@@ -107,7 +116,12 @@ class ReliefF(object):
             Reduced feature matrix
 
         """
-        return X[:, self.top_features[:self.n_features_to_keep]]
+        if self.n_features_to_keep is not None:
+            return X[:, self.top_features[:self.n_features_to_keep]]
+        elif self.alpha is not None:
+            return X[:, self.feature_scores > self.tau]
+        else:
+            raise NotImplementedError('No alternative methods implemented!')
 
     def fit_transform(self, X, y):
         """Computes the feature importance scores from the training data, then
